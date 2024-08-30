@@ -5,12 +5,13 @@ import { CidadesController } from "./../controllers";
 const router = Router();
 
 router.get("/", (_, res) => {
+    //resposta ao conectar
     return res.send("Olá, dev!");
 });
 router.post(
     "/cidades",
-    CidadesController.createBodyValidator,
-    CidadesController.create
+    CidadesController.createValidation, // middleware
+    CidadesController.create // criação
 );
 
 export { router };

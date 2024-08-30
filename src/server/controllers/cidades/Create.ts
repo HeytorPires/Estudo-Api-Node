@@ -1,36 +1,37 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-import { Request, RequestHandler, Response } from "express";
-import { StatusCodes } from "http-status-codes";
+import { Request, Response } from "express";
+// import { StatusCodes } from "http-status-codes";
 import * as yup from "yup";
+import { validation } from "../../shared/middlewares/Validation";
 
 interface ICidade {
     nome?: string;
     estado: string;
 }
+interface IFilter {
+    filter?: string;
+}
 
-const bodyValidation: yup.Schema<ICidade> = yup.object().shape({
-    nome: yup.string().required().min(3),
-    estado: yup.string().required(),
-});
+/* 
+função abaixo usa o middleware para validar os dados dos schemas que foi usado para fazer a requisição,
+usando com modelo de cada schema as interfaces acima, atravez do metodo "getSchema"
+*/
 
-export const createBodyValidator: RequestHandler = async (req, res, next) => {
-    try {
-        await bodyValidation.validate(req.body, {
-            abortEarly: false, //validar tudo antes de retornar erro
-        });
-        return next();
-    } catch (err) {
-        const YupError = err as yup.ValidationError;
-        const errors: Record<string, string> = {};
+export const createValidation = validation((getSchema) => ({
+    body: getSchema<ICidade>(
+        yup.object().shape({
+            nome: yup.string().required().min(3),
+            estado: yup.string().required().min(3),
+        })
+    ),
+    query: getSchema<IFilter>(
+        yup.object().shape({
+            filter: yup.string().required().min(3),
+        })
+    ),
+}));
 
-        YupError.inner.forEach((error) => {
-            if (!error.path) return; //retornar caso esteja vazio
-            errors[error.path] = error.message; //passar message junto do path
-        });
-        return res.status(StatusCodes.BAD_REQUEST).json({ errors });
-    }
-};
-
+//Função de criar sendo exportada
 export const create = async (req: Request<{}, {}, ICidade>, res: Response) => {
     console.log(req.body);
     return res.send("Create!");
