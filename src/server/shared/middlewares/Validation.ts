@@ -6,7 +6,7 @@ type TProperty = "body" | "header" | "params" | "query"; //Possibilidades de val
 
 type TGetSchema = <T>(schema: Schema<T>) => Schema<T>; // "<T>" é para deixar a tipagem da função generica || Retorna um unico schema de todos que vem
 
-type TallSchemas = Record<TProperty, Schema<any>>; // Todos os schemas do TProperty || aqui tem erro(POR ENQUANTO!!!!)
+type TallSchemas = Record<TProperty, Schema<unknown>>; // Todos os schemas do TProperty || aqui tem erro(POR ENQUANTO!!!!)
 
 type TGetAllSchemas = (getSchema: TGetSchema) => Partial<TallSchemas>; //Retornar todos os schemas de uma vez
 

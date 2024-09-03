@@ -8,6 +8,12 @@ router.get("/", (_, res) => {
     //resposta ao conectar
     return res.send("Olá, dev!");
 });
+
+router.get(
+    "/cidades",
+    CidadesController.getAllValidation,
+    CidadesController.getAll
+);
 router.post(
     "/cidades",
     CidadesController.createValidation, // middleware
