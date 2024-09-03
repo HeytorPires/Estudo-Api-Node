@@ -11,13 +11,28 @@ router.get("/", (_, res) => {
 
 router.get(
     "/cidades",
-    CidadesController.getAllValidation,
-    CidadesController.getAll
+    CidadesController.getAllValidation, // middleware
+    CidadesController.getAll // controller/ Ação
+);
+router.get(
+    "/cidades/:id",
+    CidadesController.getByIdValidation,
+    CidadesController.getById
 );
 router.post(
     "/cidades",
     CidadesController.createValidation, // middleware
     CidadesController.create // criação
+);
+router.put(
+    "/cidades/:id",
+    CidadesController.updateByIdValidation, // middleware
+    CidadesController.updateById // update
+);
+router.delete(
+    "/cidades/:id",
+    CidadesController.deleteByIdValidation, // middleware
+    CidadesController.deleteById // update
 );
 
 export { router };
