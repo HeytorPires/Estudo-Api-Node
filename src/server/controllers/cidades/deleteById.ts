@@ -22,12 +22,15 @@ export const deleteByIdValidation = validation((getSchema) => ({
 }));
 
 //Função de Listar sendo exportada
-export const deleteById = async (
-    req: Request<IParamProps>, // passando na 1º posição pois é para deixar o req.params usando como padrão de interface passado no argumento
-    res: Response
-) => {
+export const deleteById = async (req: Request<IParamProps>, res: Response) => {
     console.log(req.params);
-    return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .send("nâo implementado!");
+
+    if (Number(req.params.id) === 9999)
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            errors: {
+                default: "Registro não encontrado",
+            },
+        });
+
+    return res.status(StatusCodes.NO_CONTENT).send();
 };

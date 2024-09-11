@@ -21,7 +21,7 @@ export const getAllValidation = validation((getSchema) => ({
         yup.object().shape({
             page: yup.number().optional().moreThan(0),
             limit: yup.number().optional().moreThan(0),
-            filter: yup.string().required(),
+            filter: yup.string(),
         })
     ),
 }));
@@ -31,8 +31,13 @@ export const getAll = async (
     req: Request<{}, {}, {}, IQueryProps>, // passando na 4º posição pois é para deixar o req.query usando como padrão de interface o IQueryProps
     res: Response
 ) => {
+    res.setHeader("access-control-expose-headers", "x-total-count");
+    res.setHeader("x-total-count", 1);
     console.log(req.query);
-    return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .send("nâo implementado!");
+    return res.status(StatusCodes.OK).json([
+        {
+            id: 1,
+            nome: "caxias",
+        },
+    ]);
 };

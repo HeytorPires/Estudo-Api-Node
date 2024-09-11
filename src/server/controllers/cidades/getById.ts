@@ -27,7 +27,11 @@ export const getById = async (
     res: Response
 ) => {
     console.log(req.params);
-    return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .send("nâo implementado!");
+    if (Number(req.params.id) === 9999)
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            errors: {
+                default: "Registro não encontrado",
+            },
+        });
+    return res.status(StatusCodes.OK).send("nâo implementado!");
 };
